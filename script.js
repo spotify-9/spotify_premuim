@@ -1477,6 +1477,7 @@ function abrirModal({ titulo, input = true, textoBoton = "Aceptar", placeholder 
 
 // Botones de playlist y descarga en la vista grande
 $("#npBtnPlaylist").addEventListener("click", (e) => {
+  e.stopPropagation(); // evita que el clic del documento cierre el menú al instante
   if (estado.cancionActual === null) {
     aviso("Reproduce una canción primero.");
     return;

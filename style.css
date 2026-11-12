@@ -1715,7 +1715,7 @@ body.np-abierto .vista-nowplaying {
   border: 1px solid var(--borde);
   border-radius: 8px;
   color: var(--texto-blanco);
-  font-size: 15px;
+  font-size: 16px; /* evita el zoom automático de iOS */
   padding: 12px 14px;
   outline: none;
   transition: border-color 0.2s;
@@ -1757,6 +1757,30 @@ body.np-abierto .vista-nowplaying {
 .fila-vacia p { font-weight: 700; font-size: 18px; margin: 14px 0 6px 0; }
 .fila-vacia span { font-size: 14px; }
 
+/* ═══════════ GLOBAL: PANTALLAS TÁCTILES ═══════════ */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-icono, .btn-flecha, .btn-play, .btn-play-mini, .btn-play-tarjeta,
+.btn-play-grande, .chip, .filtro, .btn-cargar-mas, .menu-item {
+  touch-action: manipulation;
+}
+
+@media (pointer: coarse) {
+  /* En celular no hay hover: los botones + siempre visibles */
+  .btn-agregar-fila { opacity: 1; }
+  .btn-play-mini, .btn-play-tarjeta { opacity: 1; transform: none; }
+}
+
+/* Los avisos se ajustan en pantallas chicas */
+#avisoTemporal {
+  white-space: normal !important;
+  max-width: 88vw !important;
+  text-align: center;
+}
+
 /* ═══════════ RESPONSIVE ═══════════ */
 
 @media (max-width: 1100px) {
@@ -1768,11 +1792,164 @@ body.np-abierto .vista-nowplaying {
   .portada-grande { width: 150px; height: 150px; font-size: 48px; }
 }
 
+/* ─── CELULAR ─── */
+
 @media (max-width: 780px) {
-  .contenedor-principal { grid-template-columns: 1fr; padding: 8px 8px 0 8px; }
+  /* Estructura general */
+  .contenedor-principal {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0;
+    height: 100vh;
+    height: 100dvh; /* respeta la barra del navegador del celular */
+  }
+
+  .area-principal { border-radius: 0; }
+
   .barra-lateral { display: none; }
-  .buscador { max-width: none; }
-  .barra-reproduccion { grid-template-columns: 1fr auto; }
+  .btnMostrarSidebar { display: none; }
+  #btnMostrarSidebar { display: none; }
+
+  /* Barra superior compacta */
+  .barra-superior {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .buscador {
+    max-width: none;
+    padding: 9px 14px;
+  }
+
+  .acciones-usuario .btn-premium {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .flechas-navegacion { display: none; }
+
+  /* Contenido */
+  .contenido {
+    inset: 56px 0 0 0;
+    padding: 0 16px 24px 16px;
+  }
+
+  .banner-hero {
+    margin-top: 12px;
+    padding: 24px 20px;
+  }
+
+  .banner-titulo { font-size: clamp(30px, 10vw, 44px); }
+
+  .chips { margin-top: 12px; }
+  .chip { padding: 7px 14px; font-size: 13px; }
+
+  /* Tarjetas: 2 columnas en pantalla chica */
+  .cuadricula-rapida {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .portada-rapida { width: 52px; height: 52px; font-size: 18px; }
+  .tarjeta-rapida span { font-size: 13px; }
+
+  .cuadricula-tarjetas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .portada-tarjeta { font-size: 36px; }
+  .tarjeta { padding: 10px; }
+  .tarjeta h3 { font-size: 14px; }
+  .tarjeta p { font-size: 12px; }
+  .btn-play-tarjeta { width: 40px; height: 40px; font-size: 14px; right: 14px; bottom: 66px; }
+
+  .cuadricula-categorias {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Detalle de playlist / artista */
+  .cabecera-detalle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 24px 16px 20px 16px;
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .portada-grande { width: 130px; height: 130px; font-size: 44px; }
+  .detalle-titulo { font-size: 30px; }
+  .cuerpo-detalle { margin: 0 -16px; padding: 0 16px; }
+
+  .acciones-detalle { gap: 14px; padding: 18px 0; }
+  .btn-play-grande { width: 50px; height: 50px; font-size: 18px; }
+
+  /* Tabla de canciones: se oculta la columna de álbum */
+  .fila {
+    grid-template-columns: 24px 1fr 74px;
+    gap: 10px;
+    padding: 8px 6px;
+  }
+
+  .col-album { display: none; }
+  .tabla-canciones.compacta .fila { grid-template-columns: 24px 1fr 74px; }
+  .cancion-mini { width: 32px; height: 32px; }
+  .letra-linea { font-size: 21px; }
+
+  .np-panel-letras { width: 100%; }
+
+  /* Vista grande (Now Playing) */
+  .np-contenido { padding: 16px 20px 32px 20px; }
+  .np-portada { width: min(78vw, 44vh); margin: 18px 0; }
+  .np-textos h2 { font-size: 22px; }
+  .np-textos p { font-size: 13px; }
+  .np-controles { gap: 20px; }
+  .np-play { width: 40px; height: 40px; }
+
+  /* Reproductor inferior compacto */
+  .barra-reproduccion {
+    height: 64px;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 0 10px;
+    padding-bottom: env(safe-area-inset-bottom, 0px); /* respeta la barra inferior del celular */
+  }
+
+  .portada-actual { width: 44px; height: 44px; font-size: 14px; }
+  .info-actual .titulo-cancion { font-size: 13px; }
+  .info-actual .artista-cancion { font-size: 11px; }
+
   .reproduccion-derecha { display: none; }
-  .cabecera-detalle { flex-direction: column; align-items: flex-start; }
+
+  .reproduccion-centro { gap: 4px; }
+  .controles { gap: 14px; }
+  .controles .btn-icono { font-size: 15px; }
+  .btn-play { width: 34px; height: 34px; font-size: 13px; }
+  .barra-progreso { max-width: none; }
+
+  /* Vista grande a pantalla completa en celular */
+  body.np-abierto .barra-reproduccion { display: none; }
+  body.np-abierto .vista-nowplaying {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    border-radius: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .fila-vacia { padding: 40px 0; }
+  .fila-vacia p { font-size: 16px; }
+}
+
+/* ─── CELULAR MUY CHICO ─── */
+
+@media (max-width: 380px) {
+  .cuadricula-rapida, .cuadricula-tarjetas { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .acciones-usuario .btn-premium { padding: 6px 10px; font-size: 12px; }
+  .acciones-usuario .btn-icono { display: none; } /* solo el avatar */
+  .banner-titulo { font-size: 28px; }
+  .controles { gap: 10px; }
+  .btn-icono#btnAleatorio, .btn-icono#btnRepetir { display: none; } /* solo anterior/play/siguiente */
 }
