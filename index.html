@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Rojo - Web Player</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+  <div class="contenedor-principal">
+
+    <!-- ═══════════ BARRA LATERAL IZQUIERDA ═══════════ -->
+    <aside class="barra-lateral" id="barraLateral">
+
+      <div class="caja-lateral menu-principal">
+        <div class="logo">
+          <i class="fa-brands fa-spotify"></i>
+          <span class="logo-texto">Spotify</span>
+        </div>
+
+        <nav class="navegacion">
+          <a href="#" class="item-nav activo" data-vista="inicio">
+            <i class="fa-solid fa-house"></i>
+            <span>Inicio</span>
+          </a>
+          <a href="#" class="item-nav" data-vista="buscar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Buscar</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="caja-lateral biblioteca">
+        <div class="cabecera-biblioteca">
+          <a href="#" class="titulo-biblioteca" id="btnColapsarBiblio">
+            <i class="fa-solid fa-book"></i>
+            <span>Tu biblioteca</span>
+          </a>
+          <button class="btn-icono" title="Crear playlist">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+
+        <div class="filtros-biblioteca">
+          <button class="filtro activo">Playlists</button>
+          <button class="filtro">Artistas</button>
+        </div>
+
+        <div class="lista-playlists" id="listaBiblioteca"></div>
+
+        <div class="instalar-app">
+          <a href="#"><i class="fa-solid fa-circle-down"></i> <span>Instalar la app</span></a>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ═══════════ ÁREA PRINCIPAL ═══════════ -->
+    <main class="area-principal">
+
+      <!-- Barra superior -->
+      <header class="barra-superior">
+        <div class="flechas-navegacion">
+          <button class="btn-flecha" id="btnMostrarSidebar" title="Mostrar biblioteca"><i class="fa-solid fa-bars"></i></button>
+          <button class="btn-flecha"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <div class="buscador" id="cajaBuscador">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="inputBuscar" placeholder="¿Qué quieres escuchar?" autocomplete="off" />
+        </div>
+
+        <div class="acciones-usuario">
+          <button class="btn-premium">Premium</button>
+          <button class="btn-icono" title="Notificaciones"><i class="fa-regular fa-bell"></i></button>
+          <button class="btn-avatar" title="Perfil">H</button>
+        </div>
+      </header>
+
+      <!-- ══════ VISTA INICIO ══════ -->
+      <div class="contenido" id="vistaInicio">
+
+        <!-- Banner de me gusta -->
+        <section class="banner-hero" id="bannerMeGusta">
+          <div class="banner-info">
+            <span class="banner-etiqueta">Playlist</span>
+            <h1 class="banner-titulo">Tus me gusta</h1>
+            <p class="banner-sub" id="bannerMeGustaSub">Guarda tus canciones favoritas aquí.</p>
+          </div>
+        </section>
+
+        <!-- Sección de bienvenida -->
+        <section class="seccion">
+          <h2>Buenas noches</h2>
+          <div class="cuadricula-rapida" id="cuadriculaRapida"></div>
+        </section>
+
+        <!-- Canciones -->
+        <section class="seccion" id="seccionCanciones">
+          <div class="cabecera-seccion">
+            <h2>Canciones para ti</h2>
+            <span class="contador-seccion" id="contadorCanciones"></span>
+          </div>
+          <div class="cuadricula-tarjetas" id="cuadriculaCanciones"></div>
+          <div class="centro-cargar"><button class="btn-cargar-mas" id="btnMasCanciones">Cargar más</button></div>
+        </section>
+
+        <!-- Artistas -->
+        <section class="seccion" id="seccionArtistas">
+          <div class="cabecera-seccion">
+            <h2>Artistas</h2>
+            <span class="contador-seccion" id="contadorArtistas"></span>
+          </div>
+          <div class="cuadricula-tarjetas circulos" id="cuadriculaArtistas"></div>
+          <div class="centro-cargar"><button class="btn-cargar-mas" id="btnMasArtistas">Cargar más</button></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pie-pagina">
+          <div class="enlaces-pie">
+            <div class="columna-pie">
+              <h4>Compañía</h4>
+              <a href="#">Acerca de</a>
+              <a href="#">Empleo</a>
+            </div>
+            <div class="columna-pie">
+              <h4>Comunidades</h4>
+              <a href="#">Para artistas</a>
+              <a href="#">Desarrolladores</a>
+            </div>
+            <div class="columna-pie">
+              <h4>Enlaces útiles</h4>
+              <a href="#">Soporte</a>
+              <a href="#">Planes</a>
+            </div>
+          </div>
+          <p class="copyright">&copy; 2026 Spotify Rojo AB — Web Player</p>
+        </footer>
+      </div>
+
+      <!-- ══════ VISTA BÚSQUEDA ══════ -->
+      <div class="contenido oculto" id="vistaBuscar">
+        <section class="seccion">
+          <h2 id="tituloResultados">Explora todo</h2>
+
+          <p class="mensaje-vacio oculto" id="mensajeVacio">
+            <i class="fa-solid fa-face-frown"></i><br />
+            No encontramos nada con ese nombre. Prueba con otra búsqueda.
+          </p>
+
+          <div class="seccion-resultados oculto" id="bloqueArtistasResultados">
+            <h3 class="subtitulo-resultados">Artistas</h3>
+            <div class="cuadricula-tarjetas circulos" id="cuadriculaArtistasResultados"></div>
+          </div>
+
+          <div class="seccion-resultados oculto" id="bloqueCancionesResultados">
+            <h3 class="subtitulo-resultados">Canciones</h3>
+            <div class="tabla-canciones compacta">
+              <div class="fila fila-cabecera">
+                <span class="col-num">#</span>
+                <span class="col-titulo">Título</span>
+                <span class="col-album">Artista</span>
+                <span class="col-duracion"><i class="fa-regular fa-clock"></i></span>
+              </div>
+              <div id="listaCancionesResultados"></div>
+            </div>
+            <div class="centro-cargar"><button class="btn-cargar-mas oculto" id="btnMasResultados">Cargar más</button></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══════ VISTA DETALLE DE PLAYLIST / ARTISTA ══════ -->
+      <div class="contenido oculto" id="vistaDetalle">
+        <section class="cabecera-detalle">
+          <div class="portada-grande" id="detallePortada">
+            <i class="fa-solid fa-music"></i>
+          </div>
+          <div class="detalle-info">
+            <span class="detalle-tipo" id="detalleTipo">Playlist</span>
+            <h1 class="detalle-titulo" id="detalleTitulo">Nombre</h1>
+            <p class="detalle-sub" id="detalleSub">0 canciones</p>
+          </div>
+        </section>
+
+        <section class="cuerpo-detalle">
+          <div class="acciones-detalle">
+            <button class="btn-play-grande" id="btnPlayDetalle" title="Reproducir"><i class="fa-solid fa-play"></i></button>
+            <button class="btn-icono grande" id="btnCorazonDetalle" title="Me gusta"><i class="fa-regular fa-heart"></i></button>
+            <button class="btn-icono grande oculto" id="btnEliminarLista" title="Eliminar playlist"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+
+          <div class="tabla-canciones">
+            <div class="fila fila-cabecera">
+              <span class="col-num">#</span>
+              <span class="col-titulo">Título</span>
+              <span class="col-album">Artista</span>
+              <span class="col-duracion"><i class="fa-regular fa-clock"></i></span>
+            </div>
+            <div id="listaCancionesDetalle"></div>
+            <div class="centro-cargar"><button class="btn-cargar-mas oculto" id="btnMasDetalle">Cargar más</button></div>
+          </div>
+        </section>
+      </div>
+
+    </main>
+
+    <!-- ══════ VISTA NOW PLAYING (portada en grande) ══════ -->
+    <div class="vista-nowplaying oculto" id="vistaNowPlaying">
+      <div class="np-fondo" id="npFondo"></div>
+      <div class="np-contenido">
+        <div class="np-cabecera">
+          <div class="np-contexto" id="npContexto">Reproduciendo</div>
+          <button class="btn-icono" id="btnCerrarNP" title="Cerrar"><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+
+        <div class="np-portada" id="npPortada">
+          <i class="fa-solid fa-music"></i>
+        </div>
+
+        <div class="np-info">
+          <div class="np-textos">
+            <h2 id="npTitulo">Nada suena todavía</h2>
+            <p id="npArtista">Elige una canción para empezar</p>
+          </div>
+          <div class="np-acciones">
+            <button class="btn-icono" id="npBtnPlaylist" title="Agregar a playlist"><i class="fa-solid fa-plus"></i></button>
+            <button class="btn-icono" id="npBtnDescargar" title="Guardar para escuchar sin internet"><i class="fa-solid fa-circle-down"></i></button>
+            <button class="btn-icono" id="npBtnLetras" title="Ver letras"><i class="fa-solid fa-microphone-lines"></i></button>
+            <button class="btn-icono" id="npCorazon" title="Me gusta"><i class="fa-regular fa-heart"></i></button>
+          </div>
+        </div>
+
+        <div class="np-barra">
+          <span class="tiempo" id="npTiempoActual">0:00</span>
+          <div class="pista" id="npPista"><div class="relleno" id="npRelleno"></div><div class="punto"></div></div>
+          <span class="tiempo" id="npTiempoTotal">0:00</span>
+        </div>
+
+        <div class="np-controles">
+          <button class="btn-icono" id="npAleatorio" title="Aleatorio"><i class="fa-solid fa-shuffle"></i></button>
+          <button class="btn-icono" id="npAnterior" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+          <button class="btn-play np-play" id="npPlay" title="Reproducir"><i class="fa-solid fa-play"></i></button>
+          <button class="btn-icono" id="npSiguiente" title="Siguiente"><i class="fa-solid fa-forward-step"></i></button>
+          <button class="btn-icono" id="npRepetir" title="Repetir"><i class="fa-solid fa-repeat"></i></button>
+        </div>
+      </div>
+
+      <!-- Panel de letras -->
+      <div class="np-panel-letras oculto" id="npPanelLetras">
+        <div class="letras-cabecera">
+          <span>Letras</span>
+          <button class="btn-icono" id="btnCerrarLetras" title="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="letras-contenido" id="letrasContenido"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ PANEL DE COLA (derecha) ═══════════ -->
+    <aside class="panel-cola oculto" id="panelCola">
+      <div class="cabecera-cola">
+        <span>Cola de reproducción</span>
+        <button class="btn-icono" id="btnCerrarCola" title="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="cuerpo-cola" id="cuerpoCola">
+        <p class="cola-vacia">
+          <i class="fa-solid fa-list-ul"></i><br />
+          Tu cola está vacía.<br />Reproduce una playlist para verla aquí.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ═══════════ BARRA DE REPRODUCCIÓN INFERIOR ═══════════ -->
+  <footer class="barra-reproduccion">
+    <div class="reproduccion-izquierda">
+      <div class="portada-actual" id="portadaActual">
+        <i class="fa-solid fa-music"></i>
+      </div>
+      <div class="info-actual">
+        <span class="titulo-cancion" id="tituloActual">Nada suena todavía</span>
+        <span class="artista-cancion" id="artistaActual">Elige una canción para empezar</span>
+      </div>
+      <button class="btn-icono corazon" id="btnCorazon" title="Guardar en tus me gusta">
+        <i class="fa-regular fa-heart"></i>
+      </button>
+    </div>
+
+    <div class="reproduccion-centro">
+      <div class="controles">
+        <button class="btn-icono" id="btnAleatorio" title="Aleatorio"><i class="fa-solid fa-shuffle"></i></button>
+        <button class="btn-icono" id="btnAnterior" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+        <button class="btn-play" id="btnPlay" title="Reproducir"><i class="fa-solid fa-play"></i></button>
+        <button class="btn-icono" id="btnSiguiente" title="Siguiente"><i class="fa-solid fa-forward-step"></i></button>
+        <button class="btn-icono" id="btnRepetir" title="Repetir"><i class="fa-solid fa-repeat"></i></button>
+      </div>
+      <div class="barra-progreso">
+        <span class="tiempo" id="tiempoActual">0:00</span>
+        <div class="pista" id="pistaProgreso"><div class="relleno" id="rellenoProgreso"></div><div class="punto"></div></div>
+        <span class="tiempo" id="tiempoTotal">0:00</span>
+      </div>
+    </div>
+
+    <div class="reproduccion-derecha">
+      <button class="btn-icono" id="btnCola" title="Cola"><i class="fa-solid fa-list-ul"></i></button>
+      <div class="control-volumen">
+        <button class="btn-icono" id="btnSilenciar" title="Silenciar"><i class="fa-solid fa-volume-high"></i></button>
+        <div class="pista" id="pistaVolumen"><div class="relleno" id="rellenoVolumen" style="width: 70%;"></div><div class="punto" style="left: 70%;"></div></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="canciones.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Modal para crear playlists y confirmaciones -->
+  <div class="modal-fondo oculto" id="modalFondo">
+    <div class="modal">
+      <h3 id="modalTitulo">Título</h3>
+      <input type="text" id="modalInput" autocomplete="off" />
+      <div class="modal-acciones">
+        <button id="modalCancelar" class="btn-secundario">Cancelar</button>
+        <button id="modalAceptar" class="btn-primario">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
